@@ -18,7 +18,7 @@ final class CreativeTabKitchen extends CreativeTabs {
      */
     public int getTabIconItemIndex()
     {
-        return Item.potato.itemID;
+        return Item.carrot.itemID;
     }
 	
 }
