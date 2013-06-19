@@ -20,18 +20,22 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class MoKitchen {
 
+	// These are just some test items.
+	
 	public static Item blueEmerald;
 	public static Item redEmerald;
 
 @Init
 	public void load(FMLInitializationEvent event){
 	
+		// These are just some test items.
+		// They will be removed in the future.
+	
 		blueEmerald = new GemItems(4577).setUnlocalizedName("blue_emerald");
 		redEmerald = new GemItems(4578).setUnlocalizedName("red_emerald");
 		
 		LanguageRegistry.addName(blueEmerald, "Blue Emerald");
 		LanguageRegistry.addName(redEmerald, "Red Emerald");
-		//dd 
 		
 	}
 

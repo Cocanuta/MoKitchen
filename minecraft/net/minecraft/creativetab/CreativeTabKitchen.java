@@ -9,6 +9,7 @@ final class CreativeTabKitchen extends CreativeTabs {
 
 	CreativeTabKitchen(int par1, String par2Str) {
 		super(par1, par2Str);
+		this.
 	}
 
 	@SideOnly(Side.CLIENT)
