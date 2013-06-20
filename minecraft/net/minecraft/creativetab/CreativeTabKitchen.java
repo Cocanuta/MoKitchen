@@ -1,5 +1,6 @@
 package net.minecraft.creativetab;
 
+import nacorpio.mod.MoKitchen;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,7 +19,7 @@ final class CreativeTabKitchen extends CreativeTabs {
      */
     public int getTabIconItemIndex()
     {
-        return Item.carrot.itemID;
+        return MoKitchen.eatableLemon.itemID;
     }
 	
 }
