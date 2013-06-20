@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.EnumHelper;
@@ -24,8 +25,11 @@ public class MoKitchen {
 	public static ItemFood drinkJuiceApple;
 	public static ItemFood drinkJuiceRaspberry;
 	public static ItemFood drinkJuiceOrange;
+	
 	public static ItemFood drinkRedWine;
 	public static ItemFood drinkWhiteWine;
+	public static ItemFood drinkBeer;
+	public static ItemFood drinkVodka;
 	
 	
 	// Different foods.
@@ -46,6 +50,7 @@ public class MoKitchen {
 	
 	public static ItemFood eatableSandwich;
 	public static ItemFood eatableButteredSandwich; // TODO: The sandwich needs to be 
+	public static ItemFood eatableCheeseSandwich;
 	public static ItemFood eatableMeatSandwich;
 	public static ItemFood eatableMeatAndCheeseSandwich;
 	public static ItemFood eatableFishSandwich;
@@ -56,6 +61,7 @@ public class MoKitchen {
 	
 	
 	// Different ingredients needed to create the foods.
+	public static Item itemMeat;
 	public static Item itemCheese; // TODO: Can be used on sandwiches.
 	public static Item itemFlour; // TODO: This is an ingredient in a lot of recipes.
 	public static Item itemOat; // TODO: Used for porridge.
@@ -67,6 +73,8 @@ public class MoKitchen {
 	public static Item accessoryOnionSpice;
 	public static Item accessoryBeefSpice;
 	
+	public static Item accessoryButter; // TODO: This is used on sandwiches.
+	
 @Init
 	public void load(FMLInitializationEvent event){
 
@@ -76,8 +84,25 @@ public class MoKitchen {
 	
 	drinkRedWine = (ItemFood) new ItemFood(3339, 1, false).setUnlocalizedName("drink_redWine");
 	drinkWhiteWine = (ItemFood) new ItemFood(3340, 1, false).setUnlocalizedName("drink_whiteWine");
+	
 	//	LanguageRegistry.addName(???, "???");
-		
+	
+	// TODO: Cooking the milk so that cheese is created.
+	GameRegistry.addSmelting(3338, new ItemStack(Item.bucketMilk), 0.1f);
+	
+	// TODO: Create a sandwich.
+	GameRegistry.addRecipe(new ItemStack(eatableSandwich), "xxx", "yyy", "zzz",
+	'x', new ItemStack(accessoryButter), 'y', new ItemStack(itemFlour), 'z', new ItemStack(Item.wheat));
+	
+	// TODO: Create a buttered sandwich.
+	GameRegistry.addShapelessRecipe(new ItemStack(eatableButteredSandwich), new ItemStack(eatableSandwich), new ItemStack(accessoryButter));
+	
+	// TODO: Create a sandwich with cheese on it.
+	GameRegistry.addShapelessRecipe(new ItemStack(eatableCheeseSandwich), new ItemStack(eatableButteredSandwich), new ItemStack(itemCheese));
+	
+	// TODO: Create a sandwich with cheese and meat on it.
+	GameRegistry.addShapelessRecipe(new ItemStack(eatableMeatAndCheeseSandwich), new ItemStack(eatableCheeseSandwich), new ItemStack(itemMeat));
+	
 	}
 
 }
