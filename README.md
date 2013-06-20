@@ -7,7 +7,7 @@ If you wanna support us by making textures, or by helping us with the programmin
 
 Credits
 
-Lead programmer: Nacorpio
-Lead graphics-designer: Seluj78
-Graphics: Nacorpio, Seluj78
+Lead programmer: Nacorpio, 
+Lead graphics-designer: Seluj78, 
+Graphics: Nacorpio, Seluj78, 
 Coding: Nacorpio, Seluj78
