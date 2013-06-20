@@ -12,7 +12,7 @@ import net.minecraft.util.StringTranslate;
 
 public class CreativeTabs
 {
-    public static CreativeTabs[] creativeTabArray = new CreativeTabs[13];
+    public static CreativeTabs[] creativeTabArray = new CreativeTabs[12];
     public static final CreativeTabs tabBlock = new CreativeTabBlock(0, "buildingBlocks");
     public static final CreativeTabs tabDecorations = new CreativeTabDeco(1, "decorations");
     public static final CreativeTabs tabRedstone = new CreativeTabRedstone(2, "redstone");
@@ -24,7 +24,6 @@ public class CreativeTabs
     public static final CreativeTabs tabCombat = new CreativeTabCombat(8, "combat");
     public static final CreativeTabs tabBrewing = new CreativeTabBrewing(9, "brewing");
     public static final CreativeTabs tabMaterials = new CreativeTabMaterial(10, "materials");
-    public static final CreativeTabs tabKitchen = new CreativeTabMaterial(12, "kitchen");
     public static final CreativeTabs tabInventory = (new CreativeTabInventory(11, "inventory")).setBackgroundImageName("survival_inv.png").setNoScrollbar().setNoTitle();
     private final int tabIndex;
     private final String tabLabel;

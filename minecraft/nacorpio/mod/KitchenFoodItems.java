@@ -10,7 +10,7 @@ public class KitchenFoodItems extends Item {
 
 	public KitchenFoodItems(int par1) {
 		super(par1);
-		this.setCreativeTab(CreativeTabs.tabKitchen);
+		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 
 }

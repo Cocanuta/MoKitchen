@@ -11,7 +11,7 @@ public class KitchenMachineBlocks extends Block {
 
 	public KitchenMachineBlocks(int par1) {
 		super(par1, Material.rock);
-		this.setCreativeTab(CreativeTabs.tabKitchen);
+		this.setCreativeTab(CreativeTabs.tabFood);
 	}
 	
 }
