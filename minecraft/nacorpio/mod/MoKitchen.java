@@ -4,11 +4,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraftforge.common.EnumHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -17,7 +21,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="MoKitchen",name="Mo'Kitchen",version="0.0.0.5")
+@Mod(modid="MoKitchen",name="Mo'Kitchen",version="0.0.0.7")
 @NetworkMod(clientSideRequired=true,serverSideRequired=false)
 
 public class MoKitchen {
@@ -33,6 +37,7 @@ public class MoKitchen {
 	public static ItemFood drinkVodka;
 	
 	public static Item containerBeer;
+	
 	
 	// Different foods.
 	public static ItemFood foodPieApple;
@@ -84,6 +89,7 @@ public class MoKitchen {
 	
 	public static CreativeTabs tabKitchenDrinks;
 	public static CreativeTabs tabKitchenContainers;
+	public static CreativeTabs tabKitchenMachines;
 	
 @Init
 	public void load(FMLInitializationEvent event){
@@ -91,8 +97,9 @@ public class MoKitchen {
 		itemAdding();
 		languageRegistering();
 		
-		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenDrinks", "en_US", "Kitchen Drinks");
-		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenContainers", "en_US", "Kitchen Containers");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenDrinks", "en_US", "Mo' Kitchen Drinks");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenContainers", "en_US", "Mo' Kitchen Containers");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenMachines", "en_US", "Mo' Kitchen Machines");
 		
 	}
 
@@ -102,7 +109,12 @@ public class MoKitchen {
 		tabKitchenContainers = new CreativeTabs("tabKitchenContainers"){
 			public ItemStack getIconItemStack() {
                 return new ItemStack(MoKitchen.containerBeer, 1, 0);
-        }
+			}
+		};
+		tabKitchenMachines = new CreativeTabs("tabKitchenMachines"){
+			public ItemStack getIconItemStack() {
+                return new ItemStack(Block.brick, 1, 0);
+			}
 		};
 		
 //		eatableStrawberry = (ItemFood) new ItemFood(3349, 1, false).setUnlocalizedName("strawberry");
@@ -129,11 +141,23 @@ public class MoKitchen {
 //		accessoryCheeseSlice = new Item(3352).setUnlocalizedName("cheese_slice").setCreativeTab(CreativeTabs.tabKitchen);
 //		accessoryButter = new Item(3353).setUnlocalizedName("butter").setCreativeTab(CreativeTabs.tabKitchen);
 		
-		containerBeer = new Item(3358).setUnlocalizedName("container_beer").setCreativeTab(this.tabKitchenContainers);
+		containerBeer = new Item(3358).setUnlocalizedName("container_beer").setMaxStackSize(1).setCreativeTab(this.tabKitchenContainers);
 		
-		drinkRedWine = (ItemFood) new ItemFood(3339, 1, false).setUnlocalizedName("red_wine").setCreativeTab(this.tabKitchenDrinks);
-		drinkWhiteWine = (ItemFood) new ItemFood(3340, 1, false).setUnlocalizedName("white_wine").setCreativeTab(this.tabKitchenDrinks);
-		drinkBeer = (ItemFood) new ItemFood(3341, 1, false).setUnlocalizedName("beer").setCreativeTab(this.tabKitchenDrinks);
+		drinkRedWine = (ItemFood) new ItemFood(3339, 1, false).setUnlocalizedName("red_wine").setMaxStackSize(1).setCreativeTab(this.tabKitchenDrinks);
+		drinkWhiteWine = (ItemFood) new ItemFood(3340, 1, false).setUnlocalizedName("white_wine").setMaxStackSize(1).setCreativeTab(this.tabKitchenDrinks);
+		drinkBeer = new ItemFood(3341, 3, false){
+			@Override
+			protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 1000 / 4 / 11 * 10, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1000 / 4 / 11 * 5, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.confusion.id, 1000 / 4 / 11 * 4, 0));
+			}
+		};
+		drinkBeer.setMaxStackSize(1);
+		drinkBeer.setUnlocalizedName("beer").setCreativeTab(this.tabKitchenDrinks);
+		drinkBeer.setPotionEffect(Potion.moveSlowdown.id, 5, 0, 1.0F);
+		drinkBeer.setPotionEffect(Potion.regeneration.id, 10, 0, 1.0F);
+		// drinkBeer.setPotionEffect(9, 4, 0, 1.0F);
 		
 		// TODO: Cooking the milk so that cheese is created.
 		//GameRegistry.addSmelting(3338, new ItemStack(Item.bucketMilk), 0.1f);
@@ -181,6 +205,7 @@ public class MoKitchen {
 		LanguageRegistry.addName(drinkRedWine, "Red Wine");
 		LanguageRegistry.addName(drinkWhiteWine, "White Wine");
 		LanguageRegistry.addName(drinkBeer, "Beer");
+		LanguageRegistry.addName(containerBeer, "Beer Container");
 		
 	}
 
