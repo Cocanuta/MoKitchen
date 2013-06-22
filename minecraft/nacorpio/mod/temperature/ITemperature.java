@@ -1,4 +1,4 @@
-package nacorpio.mod;
+package nacorpio.mod.temperature;
 
 public interface ITemperature {
 

@@ -1,0 +1,17 @@
+[
+{
+  "modid": "mok",
+  "name": "Mo' Kitchen",
+  "description": "A kitchen and food modification made for enchancement within food and drinks.",
+  "version": "0.0.0.8",
+  "mcversion": "1.5.2",
+  "logoFile": "/mcp.png",
+  "url": "http://mcp.ocean-labs.de/",
+  "updateUrl": "",
+  "authors": ["Seluj78", "Nacorpio"],
+  "credits": "Made by Seluj78 and Nacorpio",
+  "parent": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

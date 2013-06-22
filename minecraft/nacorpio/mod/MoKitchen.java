@@ -1,5 +1,6 @@
 package nacorpio.mod; //Package directory
 
+import nacorpio.mod.temperature.ItemManualThermometer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -10,8 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.src.ModLoader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumHelper;
 import cpw.mods.fml.common.Mod;
@@ -61,6 +66,7 @@ public class MoKitchen {
 	public static ItemFood eatableMeatSandwich;
 	public static ItemFood eatableMeatAndCheeseSandwich;
 	public static ItemFood eatableFishSandwich;
+	public static ItemFood eatableSausage;
 	
 	public static ItemFood eatableFishSalmon, eatableCookedFishSalmon;
 	public static ItemFood eatableFishMackerel, eatableCookedFishMackerel;
@@ -73,6 +79,7 @@ public class MoKitchen {
 	public static Item itemFlour; // TODO: This is an ingredient in a lot of recipes.
 	public static Item itemOat; // TODO: Used for porridge.
 	public static Item itemSalt; // TODO: Used for most of the meals.
+	public static ItemFood itemMeatball;
 	
 	
 	// Accessories (Spices: Can be used on different meals) 
@@ -87,9 +94,14 @@ public class MoKitchen {
 	public static Item accessoryCheeseSlice;
 	public static Item accessoryButter; // TODO: This is used on sandwiches.
 	
+	
+	public static ItemManualThermometer otherThermometer;
+	
 	public static CreativeTabs tabKitchenDrinks;
 	public static CreativeTabs tabKitchenContainers;
 	public static CreativeTabs tabKitchenMachines;
+	public static CreativeTabs tabKitchenFood;
+	public static CreativeTabs tabKitchenOther;
 	
 @Init
 	public void load(FMLInitializationEvent event){
@@ -100,6 +112,8 @@ public class MoKitchen {
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenDrinks", "en_US", "Mo' Kitchen Drinks");
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenContainers", "en_US", "Mo' Kitchen Containers");
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenMachines", "en_US", "Mo' Kitchen Machines");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenFood", "en_US", "Mo' Kitchen Food");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabKitchenOther", "en_US", "Mo' Kitchen Other");
 		
 	}
 
@@ -116,6 +130,36 @@ public class MoKitchen {
                 return new ItemStack(Block.brick, 1, 0);
 			}
 		};
+		tabKitchenFood = new CreativeTabs("tabKitchenFood"){
+			public ItemStack getIconItemStack() {
+                return new ItemStack(MoKitchen.itemMeatball, 1, 0);
+			}
+		};
+		tabKitchenOther = new CreativeTabs("tabKitchenOther"){
+			public ItemStack getIconItemStack() {
+                return new ItemStack(MoKitchen.otherThermometer, 1, 0);
+			}
+		};
+		
+		eatableSausage = new ItemFood(3363, 6, false) {};
+		eatableSausage.setUnlocalizedName("sausage");
+		eatableSausage.setCreativeTab(this.tabKitchenFood);
+		
+		drinkJuiceApple = new ItemFood(3359, 4, false) {};
+		drinkJuiceApple.setUnlocalizedName("apple_juice");
+		drinkJuiceApple.setCreativeTab(this.tabKitchenDrinks);
+		
+		drinkJuiceRaspberry = new ItemFood(3360, 4, false) {};
+		drinkJuiceRaspberry.setUnlocalizedName("raspberry_juice");
+		drinkJuiceRaspberry.setCreativeTab(this.tabKitchenDrinks);
+		
+		drinkJuiceOrange = new ItemFood(3361, 4, false) {};
+		drinkJuiceOrange.setUnlocalizedName("orange_juice");
+		drinkJuiceOrange.setCreativeTab(this.tabKitchenDrinks);
+		
+		itemMeatball = new ItemFood(3362, 2, false) {};
+		itemMeatball.setUnlocalizedName("meetball");
+		itemMeatball.setCreativeTab(this.tabKitchenFood);
 		
 //		eatableStrawberry = (ItemFood) new ItemFood(3349, 1, false).setUnlocalizedName("strawberry");
 //		eatableRaspberry = (ItemFood) new ItemFood(3354, 1, false).setUnlocalizedName("raspberry");
@@ -148,9 +192,10 @@ public class MoKitchen {
 		drinkBeer = new ItemFood(3341, 3, false){
 			@Override
 			protected void onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
-				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 1000 / 4 / 11 * 10, 0));
-				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 1000 / 4 / 11 * 5, 0));
-				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.confusion.id, 1000 / 4 / 11 * 4, 0));
+				int second = 1000 / 4 / 11;
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, second * 10, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, second * 5, 0));
+				par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.confusion.id, second * 4, 0));
 			}
 		};
 		drinkBeer.setMaxStackSize(1);
@@ -158,6 +203,10 @@ public class MoKitchen {
 		drinkBeer.setPotionEffect(Potion.moveSlowdown.id, 5, 0, 1.0F);
 		drinkBeer.setPotionEffect(Potion.regeneration.id, 10, 0, 1.0F);
 		// drinkBeer.setPotionEffect(9, 4, 0, 1.0F);
+
+		otherThermometer = new ItemManualThermometer(){};
+		otherThermometer.setUnlocalizedName("thermometer");
+		otherThermometer.setCreativeTab(this.tabKitchenOther);
 		
 		// TODO: Cooking the milk so that cheese is created.
 		//GameRegistry.addSmelting(3338, new ItemStack(Item.bucketMilk), 0.1f);
@@ -206,6 +255,12 @@ public class MoKitchen {
 		LanguageRegistry.addName(drinkWhiteWine, "White Wine");
 		LanguageRegistry.addName(drinkBeer, "Beer");
 		LanguageRegistry.addName(containerBeer, "Beer Container");
+		LanguageRegistry.addName(drinkJuiceApple, "Apple Juice");
+		LanguageRegistry.addName(drinkJuiceRaspberry, "Raspberry Juice");
+		LanguageRegistry.addName(drinkJuiceOrange, "Orange Juice");
+		LanguageRegistry.addName(itemMeatball, "Meetball");
+		LanguageRegistry.addName(eatableSausage, "Sausage");
+		LanguageRegistry.addName(otherThermometer, "Thermometer");
 		
 	}
 

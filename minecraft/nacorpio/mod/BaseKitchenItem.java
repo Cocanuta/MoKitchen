@@ -1,5 +1,6 @@
 package nacorpio.mod;
 
+import nacorpio.mod.temperature.Temperature;
 import net.minecraft.item.Item;
 
 public class BaseKitchenItem {

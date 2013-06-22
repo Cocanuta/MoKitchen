@@ -1,8 +1,8 @@
-package nacorpio.mod;
+package nacorpio.mod.temperature;
 
 import java.util.Random;
 
-public final class Temperature implements ITemperature {
+public class Temperature implements ITemperature {
 
 	private static String potionEffect;
 	
