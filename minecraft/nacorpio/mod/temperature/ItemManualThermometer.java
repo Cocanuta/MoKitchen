@@ -16,7 +16,6 @@ public class ItemManualThermometer extends Item {
 	}
 
 	public final ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
-		this.onItemRightClick(par1ItemStack, par2World, par3EntityPlayer);
 		if (T == false){
 			BiomeGenBase biome = par2World.getBiomeGenForCoords((int)par3EntityPlayer.posX, (int)par3EntityPlayer.posZ);
 			switch (biome.biomeID){
